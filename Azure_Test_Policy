@@ -1,0 +1,45 @@
+{
+"mode": "All",
+"policyRule": {
+"if": {
+"allOf": [
+{
+"field": "type",
+"equals": "Microsoft.Network/Network/networkSecurityGoups/securityRules"
+},
+{
+"allOf": [
+{
+"field": "Microsoft.Network/networkSecurityGroups/securityRules/access",
+"equals": "Allow"
+},
+{
+"field": "Microsoft.Network/networkSecurityGroups/securityRules/direction",
+"equals": "Inbound"
+},
+{
+"anyOf": [
+{
+"field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange",
+"notIn": "[parameters('allowed')]"
+}
+]
+}
+]
+}
+]
+},
+"then": {
+"effect": "deny"
+}
+},
+"parameters": {
+"allowed": {
+"type": "Array",
+"metadata": {
+"displayName": "Ports to Allow",
+"description": "The inbound ports that are allowed."
+}
+}
+}
+}
